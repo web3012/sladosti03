@@ -1,0 +1,231 @@
+html {
+    height: 100%;
+
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Roboto', sans-serif;
+        background: #fff;
+        display: flex;
+        min-height: 100vh;
+        flex-direction: column;        
+
+        
+        .pageWrapper {
+            background: #f1f1f1;
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;     
+            justify-content: center;
+
+            .lineTopline {
+                height: 30px;
+                line-height: 30px;
+                background: #F4CCCC;
+                text-transform: uppercase;
+                color: #980000;
+            
+                a {
+                    color: #980000;
+                    text-decoration: none;
+            
+                    &:hover {
+                        color: #980000;
+                        text-decoration: underline;
+                    }
+            
+                }
+                svg { 
+                    vertical-align: -10%;
+                    font-size: 16px;
+                }
+            
+                ._right {
+                    text-align: right;
+                }
+                                
+                .pageTopline {
+                    min-width: 240px;
+                    width: 95%;
+                    @media (min-width: 1200px) {
+                        max-width: 1000px;
+                    }        
+                }
+            }
+
+            .pageMiddle {
+                display: flex;
+                flex-direction: column;        
+                flex-grow: 1;
+                background: #fff;
+                padding-left: 0px !important;
+                padding-right: 0px !important;
+
+                .pageHeader {
+                    display: flex;
+                    position: relative;
+                    height: 120px;
+                
+                    .logotip {
+                        display: block;
+                        position: absolute;
+                        top:20px;
+                        left:40px;
+                        width: 220px;
+                        height:80px;
+                        background: #fff url(/logo1.png) no-repeat;
+                        background-size: contain;
+
+                        h1 {
+                            display: none;
+                        }
+                    }    
+                
+                }                
+
+                .pageMenu {
+                    width: 100%;
+                    height: 52px;
+                    background: #980000;
+                    display: flex;
+
+            
+                    ul {
+                        display: none;
+
+                        @media (min-width: 768px) {
+                            display: flex;
+                        }
+
+                        flex-grow: 1;
+                        list-style: none;
+                        padding: 0;
+                        align-items: center;
+                        justify-content: center;
+        
+                        li {
+                            margin: 0 10px;
+                            text-align: center;
+                            text-transform: uppercase;
+                            line-height: 120%;
+                            a {
+                                color: #fff;
+                                text-decoration: none;
+                                &:hover {
+                                    color: #fff;
+                                    text-decoration: underline;
+                                }
+                            }
+                        }
+    
+                    }
+                }
+
+
+
+                .pageMain {
+                    flex-grow: 1;
+                    display: flex;
+                    justify-content: flex-start;
+                    flex-direction: column;
+                    //background: blue;
+                    align-items: flex-start;
+                    padding: 20px;
+                    @media (min-width: 768px) {
+                        flex-direction: row;
+                    }
+
+                    .pageSidebar {
+                        flex:0 1 240px;
+                        //background: green;
+                        display: flex;
+                        flex-direction: row;
+                        flex-wrap: wrap;
+                        width: 100%;
+                        order: 2;
+                        padding: 10px;
+                        justify-content: center;
+                        @media (min-width: 768px) {
+                            order: 0;
+                            padding: 0;
+                        }
+                        ._block {
+                            margin:10px;
+                            @media (min-width: 768px) {
+                                margin:0 0 20px 0;
+                            }
+                            flex: 0 1 240px;
+                            background: #f1f1f1;
+                            min-height: 100px;
+                            
+                            padding: 20px;
+                        }
+                                
+                    }
+                    .pageContent {
+                        flex: 1 1 240px;
+                        order: 1;
+                        background: #f1f1f1;
+                        margin:0 0 20px 0;
+                        padding: 20px;
+                        @media (min-width: 768px) {
+                            margin:0 0 0 20px;
+                        }
+
+                        p:first-child {
+                            margin-top: 0;
+                        }
+                    }
+
+                }
+                .pageFooter {
+                    min-height: 100px;
+                    height: 200px;
+                    background: #F4CCCC;
+                    padding: 10px 40px;
+                    color: #980000;
+                
+                    a {
+                        color: #980000;
+                        &:hover {
+                            color: #980000;
+                
+                        }
+                
+                    }
+                
+                    svg { 
+                        vertical-align: -12%;
+                        font-size: 16px;
+                    }
+                
+                }
+
+                // width -------------------
+                min-width: 240px;
+                width: 95%;
+    
+                // Small devices (landscape phones, 576px and up)
+                @media (min-width: 576px) {
+                }
+    
+                // Medium devices (tablets, 768px and up)
+                @media (min-width: 768px) {
+                }
+    
+                // Large devices (desktops, 992px and up)
+                @media (min-width: 992px) {
+                }
+    
+                // Extra large devices (large desktops, 1200px and up)
+                @media (min-width: 1200px) {
+                    max-width: 1000px;
+                }        
+
+
+            }
+        }
+                
+ 
+    }
+}
