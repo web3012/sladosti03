@@ -8,8 +8,14 @@ import WhatsAppIcon from '@material-ui/icons/WhatsApp'
 import MapIcon from '@material-ui/icons/Map'
 import EmailIcon from '@material-ui/icons/Email'
 import Head from 'next/head'
+import KorzinaCount from './shop/korzinaCount'
+
+// STORE
+import { StoreContext } from './global/context'
+import { reducer, initialState } from './global/store'
 
 const Layout = (props) => {
+    const [state, dispatch] = React.useReducer(reducer, initialState)
 
     let { children } = props
 
@@ -17,74 +23,79 @@ const Layout = (props) => {
 
     React.useEffect(() => {
         if (!init) {
+
         }
         setInit(true)
-    }, [init])
+    }, [])
 
     return (
-        <div className="pageWrapper">
-            <CssBaseline />
-            <Head>
-                <title>Сладости 03</title>
-            </Head>
+        <StoreContext.Provider value={{ dispatch, state }}>
+            <div className="pageWrapper">
+                <CssBaseline />
+                <Head>
+                    <title>Сладости 03</title>
+                </Head>
 
-            <div className="lineTopline">
-                <Container maxWidth="md" className="pageTopline">
-                    <Grid container spacing={1} direction="row" justify="center" alignItems="center">
-                        <Grid item md={6} className="_left">
-                            <a href="/" className="_t"><CallIcon />&nbsp;Контакты</a>&nbsp;/&nbsp;<a href="/" className="_t">Доставка и оплата</a>
+                <div className="lineTopline">
+                    <Container maxWidth="md" className="pageTopline">
+                        <Grid container spacing={1} direction="row" justify="center" alignItems="center">
+                            <Grid item md={6} className="_left">
+                                <a href="/" className="_t"><CallIcon />&nbsp;Контакты</a>&nbsp;/&nbsp;<a href="/" className="_t">Доставка и оплата</a>
+                            </Grid>
+
+                            <Grid item md={6} className="_right">
+                                &nbsp;/&nbsp;<a href="/"><WhatsAppIcon /> WHATSAPP</a>&nbsp;/&nbsp;<a href="/contacts" title="Все контакты"><CallIcon /> +7 (924) 456-74-01</a>
+                                &nbsp;/&nbsp;<KorzinaCount/>
+                            </Grid>
                         </Grid>
-
-                        <Grid item md={6} className="_right">
-                            &nbsp;/&nbsp;<a href="/"><WhatsAppIcon /> WHATSAPP</a>&nbsp;/&nbsp;<a href="/contacts" title="Все контакты"><CallIcon /> +7 (924) 456-74-01</a>
-                        </Grid>
-                    </Grid>
-                </Container>
-            </div>
-
-            <Container maxWidth="md" className="pageMiddle">
-
-                <header className="pageHeader">
-                    <a href="/" className="logotip"><h1>Сладости03</h1></a>
-                </header>
-                <div className="pageMenu">
-                    <ul className="menu1">
-                        <li><a href="/">Печенье</a></li>
-                        <li><a href="/">Вафли</a></li>
-                        <li><a href="/">Пряники</a></li>
-                        <li><a href="/">Конфеты</a></li>
-                        <li><a href="/">Карамель</a></li>
-                        <li><a href="/">Новинки</a></li>
-                        <li><a href="/">Скидки</a></li>
-                    </ul>
+                    </Container>
                 </div>
 
+                <Container maxWidth="md" className="pageMiddle">
 
-                <div className="pageMain">
-
-
-                    {children}
-
-                </div>
-
-                <div className="pageFooter">
-                    <div className="_txt">
-                        <p>&copy; 2020<br />Сладости 03.<br />Все права защищены.</p>
-                        <p>
-                            <MapIcon /> г. Улан-Удэ, ул. Гоголя, д.53<br />
-                            <CallIcon /> +7 (924) 456-74-01
-                        </p>
-                        <p>
-                            <EmailIcon /> <a href="mailto:info@dianmed.ru">info@dianmed.ru</a>
-                        </p>
+                    <header className="pageHeader">
+                        <a href="/" className="logotip"><h1>Сладости03</h1></a>
+                    </header>
+                    <div className="pageMenu">
+                        <ul className="menu1">
+                            <li><a href="/">Печенье</a></li>
+                            <li><a href="/">Вафли</a></li>
+                            <li><a href="/">Пряники</a></li>
+                            <li><a href="/">Конфеты</a></li>
+                            <li><a href="/">Карамель</a></li>
+                            <li><a href="/">Новинки</a></li>
+                            <li><a href="/">Скидки</a></li>
+                        </ul>
                     </div>
-                </div>
 
-            </Container>
 
-        </div>
+                    <div className="pageMain">
+                        {children}
+
+                    </div>
+
+                    <div className="pageFooter">
+                        <div className="_txt">
+                            <p>&copy; 2020<br />Сладости 03.<br />Все права защищены.</p>
+                            <p>
+                                <MapIcon /> г. Улан-Удэ, ул. Гоголя, д.53<br />
+                                <CallIcon /> +7 (924) 456-74-01
+                        </p>
+                            <p>
+                                <EmailIcon /> <a href="mailto:info@dianmed.ru">info@dianmed.ru</a>
+                            </p>
+                        </div>
+                    </div>
+
+                </Container>
+
+            </div>
+        </StoreContext.Provider>
     )
 }
 
 export default Layout
 
+// &nbsp;/&nbsp;{state.count} Корзина
+// &nbsp;<a onClick={()=>dispatch({type:"increment"})}>+</a>
+// &nbsp;<a onClick={()=>dispatch({type:"decrement"})}>-</a>
