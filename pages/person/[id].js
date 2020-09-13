@@ -15,9 +15,6 @@ const fetcher = async (url) => {
     return data
 }
 
-
-
-
 export default () => {
     const { query } = useRouter()
     const { data, error } = useSWR(

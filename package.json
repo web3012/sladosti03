@@ -10,10 +10,16 @@
   "dependencies": {
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
+    "gray-matter": "^4.0.2",
     "next": "9.5.3",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "sass": "^1.26.10",
     "swr": "^0.3.2"
+  },
+  "devDependencies": {
+    "js-yaml": "^3.14.0",
+    "marked": "^1.1.1",
+    "raw-loader": "^4.0.1"
   }
 }
