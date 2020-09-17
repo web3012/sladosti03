@@ -2,14 +2,14 @@
 import Layout from '../../components/layout'
 import Link from 'next/link'
 
-import { prepareData } from 'include/catalog/prepareData'
+import { prepareImport, prepareOffers } from 'include/catalog/prepareData'
  
 const CatalogID = (props) => {
 
-    let id = props.obj.id || "unknown"
-    let parent = props.obj.parent || "root"
-    let title = props.obj.title || "unknown"
-    let list = props.list || []
+    let id = props.current.id || "unknown"
+    let parent = props.current.parent || "root"
+    let title = props.current.title || "unknown"
+    let category = props.category || []
     let backURL
     
     if(parent === "root"){
@@ -17,8 +17,6 @@ const CatalogID = (props) => {
     }else{
         backURL = `/catalog/${parent}`
     }
-
-    
 
     return (
         <Layout>
@@ -32,7 +30,7 @@ const CatalogID = (props) => {
                 <p><Link href={backURL}><a>Назад</a></Link></p>
                 <p>Каталог "{title}"</p>
                 <ul>
-                    {list.map((el) => {
+                    {category.map((el) => {
                         return (
                             <li key={`id-${el.id}`}><Link href={`/catalog/${el.id}`} as={`/catalog/${el.id}`}><a>{el.title}</a></Link></li>
                         )
@@ -45,48 +43,44 @@ const CatalogID = (props) => {
 export default CatalogID
 
 export async function getStaticProps(context) {
-    let res = await prepareData({ import: "./public/1cbitrix/import.xml", offers: "./public/1cbitrix/offers.xml" })
+    let res = await prepareImport("./public/1cbitrix/import.xml")
+    let price = await prepareOffers("./public/1cbitrix/offers.xml")
 
     const fsp = require('fs').promises
-    let category = []
+    
     let data = await fsp.readFile(res.categoryFilename)
-    category = JSON.parse(data)
+    let a = JSON.parse(data)
 
-    let all = new Map(category)
-    let obj = {}
-    for (let pair of all.entries()) {
+    a = new Map(a)
+    let current = {}
+    for (let pair of a.entries()) {
         let row = Object.fromEntries(pair[1])
         if(row.id === context.params.slug){
-            obj = row
+            current = row
         }
     }
-    let list = []
-    console.log("all.entries", all.entries())
-    for (let pair of all.entries()) {
+
+    let category = []
+    for (let pair of a.entries()) {
         let row = Object.fromEntries(pair[1])
-        console.log("id", row.id)
-        console.log("parent", row.parent)
-        console.log("\n")
-        
-        if(obj.id === row.parent){
-            list.push(row)
+        if(current.id === row.parent){
+            category.push(row)
         }
     }
 
     return {
         props: {
-            obj,
-            list
+            current,
+            category
         }
     }
 }
 
 export async function getStaticPaths() {
     let res = await prepareImport("./public/1cbitrix/import.xml")
-    let price = await prepareOffers("./public/1cbitrix/offers.xml")
 
-    const fsp = require('fs').promises
     let category = []
+    const fsp = require('fs').promises
     let data = await fsp.readFile(res.categoryFilename)
     category = JSON.parse(data)
 
