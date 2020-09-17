@@ -175,6 +175,10 @@ export async function prepareImport(XMLfile) {
             if (curr_name === "БазоваяЕдиница") {
                 aobj.push(["ed", text])
             }
+            if (curr_name === "Картинка") {
+                aobj.push(["pic", text])
+            }
+            
         }
 
         if (need2 === "СвязьСГруппами") {
