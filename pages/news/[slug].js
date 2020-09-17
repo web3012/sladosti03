@@ -34,9 +34,13 @@ export async function getStaticProps(context) {
 
 export async function getStaticPaths() {
     let paths = await getAllNews()
-    paths = paths.map(row => ({
-        params: { slug: row.slug }
-    }))
+
+    paths = paths.map(row => (
+        { params: { slug: row.slug }}
+    ))
+
+    console.log("paths", paths)
+    
     return {
         paths: paths,
         fallback: false

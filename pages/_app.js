@@ -9,7 +9,7 @@ function MyApp({ Component, pageProps }) {
     const [state, dispatch] = React.useReducer(reducer, initialState)
 
 
-    console.log("_app.js > pageProps > ", pageProps)
+    //console.log("_app.js > pageProps > ", pageProps)
     
 
     return (
