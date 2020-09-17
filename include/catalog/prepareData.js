@@ -60,7 +60,7 @@ export async function prepareImport(XMLfile) {
     let list3 = [] //реквизиты
     let acat = []
     let aobj = []
-    let arekv = []
+    let arekv = {}
     let alink = []
 
     let curr_name = ""
@@ -99,7 +99,7 @@ export async function prepareImport(XMLfile) {
             need2 = "Реквизит"
         }
         if (curr_path_str === "КоммерческаяИнформация.Каталог.Товары.Товар.ЗначенияРеквизитов.ЗначениеРеквизита") {
-            arekv = []
+            arekv = {}
             need2 = "Реквизит"
         }
 
@@ -115,10 +115,21 @@ export async function prepareImport(XMLfile) {
         }
         if (curr_path_str === "КоммерческаяИнформация.Каталог.Товары.Товар.ЗначенияРеквизитов") {
             need2 = "Товар"
-            aobj.push(["meta", list3])
+            //aobj.push(["meta", list3])
         }
         if (curr_path_str === "КоммерческаяИнформация.Каталог.Товары.Товар.ЗначенияРеквизитов.ЗначениеРеквизита") {
-            list3.push(arekv)
+            list3.push()
+            switch (arekv.name) {
+                case "ОписаниеФайла":
+                    aobj.push(["fileDescription", arekv.value])
+                    break;
+                case "Полное наименование":
+                    aobj.push(["fullName", arekv.value])
+                    break;
+                case "Вес":
+                    aobj.push(["ves", arekv.value])
+                    break;
+            }
         }
         if (curr_path_str === "КоммерческаяИнформация.Каталог.Товары.Товар") {
             need2 = false
@@ -174,10 +185,10 @@ export async function prepareImport(XMLfile) {
         }
         if (need2 === "Реквизит") {
             if (curr_name === "Наименование") {
-                arekv.push(['name', text])
+                arekv.name = text
             }
             if (curr_name === "Значение") {
-                arekv.push(['value', text])
+                arekv.value = text
             }
         }
 
@@ -253,7 +264,7 @@ export async function prepareOffers(XMLfile) {
     let curr_name = ""
     let curr_path_arr = []
     let curr_path_str = ""
-    let need = false 
+    let need = false
 
     // =======================================================
     // parser.on

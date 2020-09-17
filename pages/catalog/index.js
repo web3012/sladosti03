@@ -64,6 +64,8 @@ export async function getStaticProps(context) {
     data = await fsp.readFile(res.productsFilename)
     products = JSON.parse(data)
 
+    
+
     return {
         props: {
             category,

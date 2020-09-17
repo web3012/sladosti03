@@ -175,6 +175,16 @@ html {
                         p:first-child {
                             margin-top: 0;
                         }
+
+                        table {
+                            width: 100%;
+                            
+                            tr {
+                                td {
+                                    border:1px solid #333;
+                                }
+                            }
+                        }
                     }
 
                 }
