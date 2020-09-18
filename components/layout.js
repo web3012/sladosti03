@@ -52,13 +52,13 @@ const Layout = (props) => {
                 </header>
                 <div className="pageMenu">
                     <ul className="menu1">
-                        <li><a href="/">Печенье</a></li>
-                        <li><a href="/">Вафли</a></li>
-                        <li><a href="/">Пряники</a></li>
-                        <li><a href="/">Конфеты</a></li>
-                        <li><a href="/">Карамель</a></li>
-                        <li><a href="/">Новинки</a></li>
-                        <li><a href="/">Скидки</a></li>
+                        <li><a href="/catalog">Печенье</a></li>
+                        <li><a href="/catalog">Вафли</a></li>
+                        <li><a href="/catalog">Пряники</a></li>
+                        <li><a href="/catalog">Конфеты</a></li>
+                        <li><a href="/catalog">Карамель</a></li>
+                        <li><a href="/catalog">Новинки</a></li>
+                        <li><a href="/catalog">Скидки</a></li>
                     </ul>
                 </div>
 

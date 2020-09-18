@@ -166,18 +166,27 @@ export async function prepareImport(XMLfile) {
 
         }
         if (need2 === "Товар") {
-            if (curr_name === "Ид") {
-                aobj.push(["id", text])
-            }
-            if (curr_name === "Наименование") {
-                aobj.push(["title", text])
-            }
-            if (curr_name === "БазоваяЕдиница") {
-                aobj.push(["ed", text])
-            }
-            if (curr_name === "Картинка") {
-                aobj.push(["pic", text])
-            }
+
+            aobj.push([curr_name, text])
+
+            // if (curr_name === "Ид") {
+            //     aobj.push(["id", text])
+            // }
+            // if (curr_name === "Наименование") {
+            //     aobj.push(["title", text])
+            // }
+            // if (curr_name === "БазоваяЕдиница") {
+            //     aobj.push(["ed", text])
+            // }
+            // if (curr_name === "Картинка") {
+            //     aobj.push(["pic", text])
+            // }
+            // if (curr_name === "Штрихкод") {
+            //     aobj.push(["shtrihkod", text])
+            // }
+            // if (curr_name === "Артикул") {
+            //     aobj.push(["articul", text])
+            // }
             
         }
 

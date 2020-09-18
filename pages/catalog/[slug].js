@@ -3,6 +3,7 @@ import Layout from '../../components/layout'
 import Link from 'next/link'
 
 import { prepareImport, prepareOffers } from 'include/catalog/prepareData'
+import { Breadcrumbs } from '@material-ui/core'
 
 const CatalogID = (props) => {
 
@@ -12,6 +13,7 @@ const CatalogID = (props) => {
     let category = props.category || []
     let products = props.products || []
     let price = props.price || []
+    let bcrumbs = props.bcrumbs || []
     let backURL
 
     if (parent === "root") {
@@ -29,7 +31,17 @@ const CatalogID = (props) => {
             </div>
 
             <div className="pageContent">
-                <p><Link href={backURL}><a>Назад</a></Link></p>
+                <p>
+                    <Link href={`/catalog`}><a>Каталог товаров</a></Link>
+                    {bcrumbs.map((el) => {
+                        return (
+                            <React.Fragment key={el.id}>
+                                &nbsp;/&nbsp;<Link href={`/catalog/${el.id}`}><a>{el.title}</a></Link>
+                            </React.Fragment>
+                        )
+                    })}
+                </p>
+
                 <p>Каталог "{title}"</p>
                 <ul>
                     {category.map((el) => {
@@ -43,16 +55,16 @@ const CatalogID = (props) => {
                     <tbody>
                         {products.map((el) => {
                             let dat = {}
-                            for (let i = 0; i < price.length; i++){
-                                if (price[i].Ид === el.id){
+                            for (let i = 0; i < price.length; i++) {
+                                if (price[i].Ид === el.Ид) {
                                     dat = price[i]
                                     break;
                                 }
                             }
-                            
+
                             return (
-                                <tr key={`id-${el.id}`}>
-                                    <td><Link href={`/catalog/item/${el.id}`} as={`/catalog/item/${el.id}`}><a>{el.title}</a></Link></td>
+                                <tr key={`id-${el.Ид}`}>
+                                    <td><Link href={`/catalog/item/${el.Ид}`} as={`/catalog/item/${el.Ид}`}><a>{el.Наименование}</a></Link></td>
                                     <td>{dat.Представление}</td>
                                 </tr>
                             )
@@ -67,14 +79,15 @@ const CatalogID = (props) => {
 export default CatalogID
 
 export async function getStaticProps(context) {
+    const fsp = require('fs').promises
+
     let resImport = await prepareImport("./public/1cbitrix/import.xml")
     let resOffers = await prepareOffers("./public/1cbitrix/offers.xml")
 
-    const fsp = require('fs').promises
-
     let a = JSON.parse(await fsp.readFile(resImport.categoryFilename))
-
     a = new Map(a)
+
+    // Текущая директория
     let current = {}
     for (let pair of a.entries()) {
         let row = Object.fromEntries(pair[1])
@@ -83,6 +96,32 @@ export async function getStaticProps(context) {
         }
     }
 
+    // Хлебные крошки
+    let bcrumbs = []
+    const search = (a, id) => {
+        let curr = a.get(id)
+        curr = Object.fromEntries(curr)
+
+        bcrumbs.push(curr)
+
+        if (curr.parent === 'root') return
+
+        for (let row of a.values()) {
+            row = Object.fromEntries(row)
+
+            if (curr.parent == row.id) {
+                search(a, row.id)
+                break
+            }
+        }
+    }
+    search(a, current.id)
+    bcrumbs = bcrumbs.reverse()
+
+    //console.log("breadcrumbs>>>>>>>", bcrumbs)
+
+
+    // Поддиректории
     let category = []
     for (let pair of a.entries()) {
         let row = Object.fromEntries(pair[1])
@@ -102,7 +141,7 @@ export async function getStaticProps(context) {
             if (link[1] == current.id) {
                 //row.meta = Object.fromEntries(row.meta)
                 products.push(row)
-                need.push(row.id) // для прайса
+                need.push(row.Ид) // для прайса
             }
         })
     })
@@ -122,7 +161,8 @@ export async function getStaticProps(context) {
             current,
             category,
             products,
-            price
+            price,
+            bcrumbs
         }
     }
 }
