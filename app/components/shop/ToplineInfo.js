@@ -1,41 +1,18 @@
-import React, {useEffect, useState} from "react"
+import React from "react"
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import {events} from '@app/components/global/events'
 
 const ToplineInfo = () => {
 
-    const [init, setInit] = useState(false)
-    const [count, setCount] = useState(0)
-    
-    const updateCount = () => {
-        //console.log('updateCount')
-
-        let f = ()=>{
-            let n = 0
-            let items = JSON.parse(window.localStorage.getItem('zakaz')) || []
-            items.map(elem => {if(elem.count > 0) n++})
-            return n
-        }
-        let p1 = new Promise((resolve, reject) => {
-            setTimeout(resolve(f()), 1000)
-        })
-        Promise.all([p1]).then(values => { 
-            setCount(values[0])
-        })
-
+    let a = []
+    if (typeof window !== "undefined") {
+        a = JSON.parse(localStorage.getItem('zakaz')) || []
     }
-    
-    useEffect(() => {
-        if(!init){
-            //console.log("Init update.....")
+    const [count, setCount] = React.useState(a.length)
 
-            events.on('updateZakaz', () => {
-                setTimeout(updateCount, 1000)
-            })
-            events.emit('updateZakaz')
-
-            setInit(true)
-        }
+    events.on('updateZakaz', () => {
+        a = JSON.parse(localStorage.getItem('zakaz')) || []
+        setCount(a.length)
     })
 
     return (

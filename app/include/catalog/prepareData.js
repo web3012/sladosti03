@@ -25,16 +25,15 @@ export async function prepareImport(XMLfile) {
     let life = await getFileLife(filename)
     let life2 = await getFileLife(filename2)
 
-    if (life < 5) { //5 сек на период разработки
-        //console.log("ACTUAL")
-        return {
+    if (life < 60 * 5) { //5 мин 
+        return { // кэш актуален
             categoryFilename: filename,
             productsFilename: filename2,
             life: await getFileLife(filename),
             life2: await getFileLife(filename2)
         }
+
     } else {
-        //console.log("NOT ACTUAL")
         try {
             await fsp.unlink(filename)
             await fsp.unlink(filename2)
@@ -77,7 +76,6 @@ export async function prepareImport(XMLfile) {
         curr_name = name.split(" ")[0] //отрезаем аттрибуты
         curr_path_arr.push(curr_name)
         curr_path_str = curr_path_arr.slice().join(".")
-        //console.log("OPEN > ", curr_path_str)
 
         if (curr_path_str === "КоммерческаяИнформация.Классификатор.Группы") {
             need = "Категория"
@@ -115,7 +113,6 @@ export async function prepareImport(XMLfile) {
         }
         if (curr_path_str === "КоммерческаяИнформация.Каталог.Товары.Товар.ЗначенияРеквизитов") {
             need2 = "Товар"
-            //aobj.push(["meta", list3])
         }
         if (curr_path_str === "КоммерческаяИнформация.Каталог.Товары.Товар.ЗначенияРеквизитов.ЗначениеРеквизита") {
             list3.push()
@@ -141,14 +138,11 @@ export async function prepareImport(XMLfile) {
             curr_path_id.pop() // Убираем из стека текущий parent Ид
         }
         // ----------------------------------------------
-        // console.log("CLOSE > ", curr_path_str, `\n`)
-
         curr_path_arr.pop()
         curr_path_str = curr_path_arr.slice().join(".")
     })
 
     parser.on('text', async (text) => {
-        //console.log("TEXT > ", curr_path_str, text)
         if (need == "Категория") { // Категория
             if (curr_name === "Ид") {
                 acat = []
@@ -169,25 +163,6 @@ export async function prepareImport(XMLfile) {
 
             aobj.push([curr_name, text])
 
-            // if (curr_name === "Ид") {
-            //     aobj.push(["id", text])
-            // }
-            // if (curr_name === "Наименование") {
-            //     aobj.push(["title", text])
-            // }
-            // if (curr_name === "БазоваяЕдиница") {
-            //     aobj.push(["ed", text])
-            // }
-            // if (curr_name === "Картинка") {
-            //     aobj.push(["pic", text])
-            // }
-            // if (curr_name === "Штрихкод") {
-            //     aobj.push(["shtrihkod", text])
-            // }
-            // if (curr_name === "Артикул") {
-            //     aobj.push(["articul", text])
-            // }
-            
         }
 
         if (need2 === "СвязьСГруппами") {
@@ -218,13 +193,6 @@ export async function prepareImport(XMLfile) {
     await fsp.writeFile(filename, JSON.stringify(list))
     await fsp.writeFile(filename2, JSON.stringify(list2))
 
-    // let n = 0
-    // list2.map(el => {
-    //     n++;
-    //     if (n > 3) return
-    //     console.log(el)
-    // })
-
     return {
         categoryFilename: filename,
         productsFilename: filename2,
@@ -245,7 +213,7 @@ export async function prepareOffers(XMLfile) {
     // =======================================================
     let life = await getFileLife(filename)
 
-    if (life < 5) { //5 сек на период разработки
+    if (life < 60 * 5) { //5 мин
         //console.log("ACTUAL")
         return {
             priceFilename: filename,

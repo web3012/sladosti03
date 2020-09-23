@@ -39,7 +39,7 @@ const Layout = (props) => {
 
                         <Grid item md={6} className="_right">
                             &nbsp;/&nbsp;<a href="/"><WhatsAppIcon /> WHATSAPP</a>&nbsp;/&nbsp;<a href="/contacts" title="Все контакты"><CallIcon /> +7 (924) 456-74-01</a>
-                                &nbsp;/&nbsp;<ToplineInfo />
+                                &nbsp;/&nbsp;<ToplineInfo/>
                         </Grid>
                     </Grid>
                 </Container>

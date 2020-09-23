@@ -181,8 +181,18 @@ html {
                             
                             tr {
                                 td, th {
+                                    line-height: 1.1em;
+                                    padding: 6px 10px;
                                     border:1px solid #333;
-                                    text-align: center;
+                                    svg {
+                                        vertical-align: -10%;
+                                        font-size: 16px;
+                                        color: #777;
+                                        &:hover {
+                                            color: #980000;
+                                            cursor: pointer;
+                                        }
+                                    }
                                 }
                             }
                         }

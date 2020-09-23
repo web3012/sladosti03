@@ -34,7 +34,7 @@ const ProductID = (props) => {
                 <p>Штрихкод: {obj.Штрихкод}</p>
                 <p>Артикул: {obj.Артикул}</p>
 
-                <img src={`/1cbitrix/${obj.Картинка}`} alt={obj.Наименование} />
+                {obj.Картинка !== undefined && <img src={`/1cbitrix/${obj.Картинка}`} alt={obj.Наименование} />}
 
                 <p>Цена: {price.Представление}</p>
                 <p>Количество: {price.Количество}</p>

@@ -1,80 +1,55 @@
-import React, {useEffect, useState} from "react"
+import React, { useEffect, useState } from "react"
 
 import Badge from '@material-ui/core/Badge';
-import Button from '@material-ui/core/Button';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
-import RemoveIcon from '@material-ui/icons/Remove';
 
-import {events} from '@app/components/global/events'
+import { events } from '@app/components/global/events'
 
 const AddBtn = (props) => {
-
     const id = props.id
+    const zakaz = props.zakaz ?? []
 
-    const [init, setInit] = useState(false)
-    const [item, setItem] = useState(0)
+    console.log("props", props)
 
-    const add = () => {
-        let count = item.count
-        count = count + 1
-        setItem({id: id, count: count})
-        
-        //console.log("Add btn pressed !!")
-        events.emit('updateZakaz')
-    }
-    
-    const clean = () => {
-        setItem({id: id, count: 0})
+    const [count, setCount] = useState(0)
+
+    const add = (e, id) => {
+        let a = []
+        let item = zakaz.find(item => item.id == id)
+        let finded = false
+        zakaz.map(el => {
+            if (el.id === id) {
+                el.count = el.count + 1
+                setCount(el.count)
+                finded = true
+            }
+            a.push(el)
+        })
+        if (!finded) {
+            a.push({ id: id, count: 1 })
+            setCount(1)
+        }
+        localStorage.setItem("zakaz", JSON.stringify(a))
         events.emit('updateZakaz')
     }
 
     useEffect(() => {
+        if (!zakaz.length) return //если zakaz еще не подгружен
 
-        let items = JSON.parse(window.localStorage.getItem('zakaz')) || []
-        
-        if(!init){
-            // init State from localStorage
-            let item = items.find(item => item.id == id)
-            if(item === undefined) item = {id: id, count: 0}
-            setItem(item)        
-
-            setInit(true)
-        }else{
-            // update localStorage from State
-            let i = items.findIndex(item => item.id == id)
-            if(i === -1){
-                items.push(item)
-            }else{
-                items[i] = item
-            }
-            window.localStorage.setItem("zakaz", JSON.stringify(items))
+        let item = zakaz.find(item => item.id == id)
+        if (item !== undefined) {
+            setCount(item.count)
         }
+    }, [zakaz]) // только при изменении zakaz
 
-    })
-
-    if(id){
-        return (
-            <React.Fragment>
-            <Badge badgeContent={item.count} color="secondary" invisible={!item.count}>
-                <Button
-                    color="primary" 
-                    size="small"
-                    startIcon={<AddShoppingCartIcon/>}
-                    onClick={add}        
-                    onDoubleClick={clean}            
-                    >
-                </Button>
+    return (
+        <React.Fragment>
+            <Badge badgeContent={count} max={99} color="primary">
+                <AddShoppingCartIcon onClick={(e) => add(e, id)} />
             </Badge>
-            </React.Fragment>
-        )
-    }else{
-        return (
-            <Button color="primary" size="small" startIcon={<AddShoppingCartIcon/>} disabled>
-                В корзину
-            </Button>
-        )
-
-    }
+        </React.Fragment>
+    )
 }
+// invisible={!count} variant="dot"
 
 export default AddBtn

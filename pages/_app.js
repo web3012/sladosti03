@@ -7,13 +7,10 @@ import { reducer, initialState } from '@app/components/global/store'
 
 function MyApp({ Component, pageProps }) {
     const [state, dispatch] = React.useReducer(reducer, initialState)
-
-
-    //console.log("_app.js > pageProps > ", pageProps)
+    let n = 12
     
-
     return (
-        <StoreContext.Provider value={{ dispatch, state }}>
+        <StoreContext.Provider value={{ state, dispatch, n }}>
             <Component {...pageProps} />
         </StoreContext.Provider>
     )

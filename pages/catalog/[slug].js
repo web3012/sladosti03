@@ -4,8 +4,25 @@ import Link from 'next/link'
 
 import { prepareImport, prepareOffers } from '@app/include/catalog/prepareData'
 import { Breadcrumbs } from '@material-ui/core'
+import AddBtn from '@app/components/shop/AddBtn'
+
+import {StoreContext} from '@app/components/global/context.js'
+import { events } from '@app/components/global/events'
+
 
 const CatalogID = (props) => {
+
+    let a = []
+    if (typeof window !== "undefined") {
+        a = JSON.parse(localStorage.getItem('zakaz')) || []
+        //console.log("typeof a", typeof a)
+        localStorage.setItem("zakaz", JSON.stringify(a))
+    }
+
+    const [zakaz, setZakaz] = React.useState(a)
+    const {state, dispatch, n} = React.useContext(StoreContext)
+
+    //localStorage.setItem("zakaz", JSON.stringify(action.zakaz))
 
     let id = props.current.id || "unknown"
     let parent = props.current.parent || "root"
@@ -15,6 +32,22 @@ const CatalogID = (props) => {
     let price = props.price || []
     let bcrumbs = props.bcrumbs || []
     let backURL
+
+    events.on('updateZakaz', () => {
+        // Перечитать localStorage
+        a = JSON.parse(localStorage.getItem('zakaz')) || []
+        setZakaz(a)
+    })
+
+    React.useEffect(() => {
+        console.log("zakaz-1", zakaz)
+        //dispatch({type: 'ZAKAZ_SET', zakaz: zakaz}) // глобвльный state
+    }, []) //The empty array causes this effect to only run on mount
+
+    React.useEffect(() => {
+        console.log("zakaz-2", zakaz)
+    })
+
 
     if (parent === "root") {
         backURL = "/catalog"
@@ -42,6 +75,7 @@ const CatalogID = (props) => {
                     })}
                 </p>
 
+
                 <p>Каталог "{title}"</p>
                 <ul>
                     {category.map((el) => {
@@ -66,6 +100,7 @@ const CatalogID = (props) => {
                                 <tr key={`id-${el.Ид}`}>
                                     <td><Link href={`/catalog/item/${el.Ид}`} as={`/catalog/item/${el.Ид}`}><a>{el.Наименование}</a></Link></td>
                                     <td>{dat.Представление}</td>
+                                    <td><AddBtn id={dat.Ид} zakaz={zakaz}/></td>
                                 </tr>
                             )
                         })}
@@ -76,6 +111,8 @@ const CatalogID = (props) => {
         </Layout >
     )
 }
+
+
 export default CatalogID
 
 export async function getStaticProps(context) {
