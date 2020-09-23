@@ -27,15 +27,9 @@ const Catalog = (props) => {
 
     return (
         <Layout>
-            <div className="pageSidebar">
-                <div className="_block">
-                    <p>***</p>
-                </div>
-            </div>
-
             <div className="pageContent">
-                <p>Каталог...</p>
-                <ul>
+                <h2>Каталог товаров</h2>
+                <ul className="catalogIndex">
                     {list.map((el) => {
                         return (
                             <li key={el.id}><Link href={`/catalog/${el.id}`}><a>{el.title}</a></Link></li>

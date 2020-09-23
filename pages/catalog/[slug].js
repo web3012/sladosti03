@@ -76,7 +76,7 @@ const CatalogID = (props) => {
                 </p>
 
 
-                <p>Каталог "{title}"</p>
+                <h2>Каталог "{title}"</h2>
                 <ul>
                     {category.map((el) => {
                         return (

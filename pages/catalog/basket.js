@@ -74,7 +74,7 @@ const BasketPage = (props) => {
                                 let dat = price.get(elem.id)
                                 return (
                                     <tr key={elem.id}>
-                                        <td>{dat.Наименование}</td>
+                                        <td><Link href={`/catalog/item/${elem.id}`}><a>{dat.Наименование}</a></Link></td>
                                         <td style={{width:"120px"}}>
                                             <input type="text" name={`count[${elem.id}]`} value={elem.count} size="5" onChange={(e)=>change(e, elem.id)}/>
                                             <DeleteForeverIcon onClick={()=>del(elem.id)}/>

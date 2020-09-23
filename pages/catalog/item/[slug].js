@@ -4,6 +4,13 @@ import { prepareImport, prepareOffers } from '@app/include/catalog/prepareData'
 import AddBtn from '@app/components/shop/AddBtn'
 
 const ProductID = (props) => {
+
+    let a = []
+    if (typeof window !== "undefined") {
+        a = JSON.parse(localStorage.getItem('zakaz')) || []
+    }
+    const [zakaz, setZakaz] = React.useState(a)
+
     let obj = props.obj ?? {}
     let price = props.price ?? {}
     let bcrumbs = props.bcrumbs || []
@@ -40,7 +47,7 @@ const ProductID = (props) => {
                 <p>Количество: {price.Количество}</p>
 
                 <p>
-                    <AddBtn id={obj.Ид} />
+                    <AddBtn id={obj.Ид} zakaz={zakaz}/>
                 </p>
 
             </div>

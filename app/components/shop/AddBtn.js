@@ -9,8 +9,6 @@ const AddBtn = (props) => {
     const id = props.id
     const zakaz = props.zakaz ?? []
 
-    console.log("props", props)
-
     const [count, setCount] = useState(0)
 
     const add = (e, id) => {

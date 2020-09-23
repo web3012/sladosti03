@@ -172,8 +172,22 @@ html {
                             margin:0 0 0 20px;
                         }
 
+                        h2 {
+                            color: #980000;
+                            &:first-child {
+                                margin-top: 0;
+                            }
+                        }
+
                         p:first-child {
                             margin-top: 0;
+                        }
+
+                        a {
+                            color: #980000;
+                            &:hover {
+                                color: #FF6A21;
+                            }
                         }
 
                         table {
@@ -194,12 +208,21 @@ html {
                                         }
                                     }
                                 }
+                                
+                            }
+                            tr:nth-child(even) {
+                                background: #f1f1f1;
+                            }
+                            tr:nth-child(odd) {
+                                background: #fff;
                             }
                         }
 
                         img {
                             max-width: 40%;
                         }
+
+                        @import "_catalog";
                     }
 
                 }
