@@ -1,7 +1,7 @@
-import Layout from '../../components/layout'
+import Layout from '@app/components/layout'
 import Link from 'next/link'
 
-import {prepareImport, prepareOffers} from 'include/catalog/prepareData'
+import {prepareImport, prepareOffers} from '@app/include/catalog/prepareData'
 
 
 const Catalog = (props) => {
@@ -63,8 +63,6 @@ export async function getStaticProps(context) {
 
     data = await fsp.readFile(res.productsFilename)
     products = JSON.parse(data)
-
-    
 
     return {
         props: {

@@ -16,8 +16,8 @@ const getFileLife = async (filename) => {
 
 export async function prepareImport(XMLfile) {
 
-    const filename = 'data/_catalog/category.json'
-    const filename2 = 'data/_catalog/products.json'
+    const filename = 'app/data/_catalog/category.json'
+    const filename2 = 'app/data/_catalog/products.json'
 
     const fsp = require('fs').promises
 
@@ -237,7 +237,7 @@ export async function prepareImport(XMLfile) {
 
 export async function prepareOffers(XMLfile) {
 
-    const filename = 'data/_catalog/price.json'
+    const filename = 'app/data/_catalog/price.json'
     const fs = require('fs')
     const fsp = require('fs').promises
 

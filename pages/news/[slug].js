@@ -1,5 +1,5 @@
 
-import Layout from '../../components/layout'
+import Layout from '@app/components/layout'
 import { getNewsBySlug, getAllNews } from '@api/news'
 import Link from 'next/link'
 

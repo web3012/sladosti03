@@ -8,12 +8,12 @@ import marked from 'marked'
 export async function getAllNews() {
 
     const posts = []
-    const context = require.context('../../data/_news', false, /\.md$/)
+    const context = require.context('../../app/data/_news', false, /\.md$/)
 
 
     for (const key of context.keys()) {
         const post = key.slice(2)
-        const content = await import(`../../data/_news/${post}`)
+        const content = await import(`../../app/data/_news/${post}`)
 
         const meta = matter(content.default)
 
@@ -29,7 +29,7 @@ export async function getAllNews() {
 }
 
 export async function getNewsBySlug(slug) {
-    const fileContent = await import(`../../data/_news/${slug}.md`)
+    const fileContent = await import(`../../app/data/_news/${slug}.md`)
 
     const meta = matter(fileContent.default)
     const content = marked(meta.content)

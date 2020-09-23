@@ -1,8 +1,8 @@
 
-import Layout from '../../components/layout'
+import Layout from '@app/components/layout'
 import Link from 'next/link'
 
-import { prepareImport, prepareOffers } from 'include/catalog/prepareData'
+import { prepareImport, prepareOffers } from '@app/include/catalog/prepareData'
 import { Breadcrumbs } from '@material-ui/core'
 
 const CatalogID = (props) => {

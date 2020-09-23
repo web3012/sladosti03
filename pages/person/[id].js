@@ -1,7 +1,7 @@
 
-import Layout from '../../components/layout'
-import ListPeople from '../../components/people/list'
-import InfoPeople from '../../components/people/info'
+import Layout from '@app/components/layout'
+import ListPeople from '@app/components/people/list'
+import InfoPeople from '@app/components/people/info'
 
 import { useRouter } from 'next/router'
 import useSWR from 'swr'

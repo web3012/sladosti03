@@ -1,4 +1,4 @@
-import { people } from '../../../data/people'
+import { people } from '@app/data/people'
 
 export default (req, res) => {
     res.status(200).json(people)

@@ -1,4 +1,4 @@
-import Layout from '../../components/layout'
+import Layout from '@app/components/layout'
 import { getAllNews } from '@api/news'
 import { getConfig } from '@api/index'
 import Link from 'next/link'

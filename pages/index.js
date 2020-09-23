@@ -1,6 +1,6 @@
 
-import Layout from '../components/layout'
-import ListPeople from '../components/people/list'
+import Layout from '@app/components/layout'
+import ListPeople from '@app/components/people/list'
 
 export default function Home() {
 
