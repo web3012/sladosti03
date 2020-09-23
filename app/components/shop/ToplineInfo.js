@@ -1,10 +1,6 @@
 import React, {useEffect, useState} from "react"
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-import Badge from '@material-ui/core/Badge';
-import {Link} from 'gatsby'
-import {events} from '../global'
-
-// localStorage.removeItem('zakaz') // clean
+import {events} from '@app/components/global/events'
 
 const ToplineInfo = () => {
 
@@ -43,7 +39,7 @@ const ToplineInfo = () => {
     })
 
     return (
-        <span style={{verticalAlign: "middle"}}><ShoppingCartIcon fontSize="small" style={{position:"relative", top:"5px", left:"5px"}}/> &nbsp;&nbsp;<Link to="/zakaz/">{count} товаров</Link></span>
+        <span style={{verticalAlign: "middle"}}><ShoppingCartIcon fontSize="small" style={{position:"relative", top:"5px", left:"5px"}}/> &nbsp;&nbsp;<a href="/catalog/basket">{count} товаров</a></span>
     )
 }
 

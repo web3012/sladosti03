@@ -8,7 +8,7 @@ import WhatsAppIcon from '@material-ui/icons/WhatsApp'
 import MapIcon from '@material-ui/icons/Map'
 import EmailIcon from '@material-ui/icons/Email'
 import Head from 'next/head'
-import KorzinaCount from './shop/korzinaCount'
+import ToplineInfo from "./shop/ToplineInfo"
 
 const Layout = (props) => {
 
@@ -39,7 +39,7 @@ const Layout = (props) => {
 
                         <Grid item md={6} className="_right">
                             &nbsp;/&nbsp;<a href="/"><WhatsAppIcon /> WHATSAPP</a>&nbsp;/&nbsp;<a href="/contacts" title="Все контакты"><CallIcon /> +7 (924) 456-74-01</a>
-                                &nbsp;/&nbsp;<KorzinaCount />
+                                &nbsp;/&nbsp;<ToplineInfo />
                         </Grid>
                     </Grid>
                 </Container>

@@ -5,7 +5,7 @@ import Button from '@material-ui/core/Button';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import RemoveIcon from '@material-ui/icons/Remove';
 
-import {events} from '../global'
+import {events} from '@app/components/global/events'
 
 const AddBtn = (props) => {
 

@@ -1,7 +1,7 @@
 import Layout from '@app/components/layout'
 import Link from 'next/link'
-
 import { prepareImport, prepareOffers } from '@app/include/catalog/prepareData'
+import AddBtn from '@app/components/shop/AddBtn'
 
 const ProductID = (props) => {
     let obj = props.obj ?? {}
@@ -40,7 +40,7 @@ const ProductID = (props) => {
                 <p>Количество: {price.Количество}</p>
 
                 <p>
-                    <button>Отложить в корзину</button>
+                    <AddBtn id={obj.Ид} />
                 </p>
 
             </div>
