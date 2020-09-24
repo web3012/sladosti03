@@ -6,7 +6,7 @@ import { prepareImport, prepareOffers } from '@app/include/catalog/prepareData'
 import { Breadcrumbs } from '@material-ui/core'
 import AddBtn from '@app/components/shop/AddBtn'
 
-import {StoreContext} from '@app/components/global/context.js'
+import { StoreContext } from '@app/components/global/context.js'
 import { events } from '@app/components/global/events'
 
 
@@ -20,7 +20,7 @@ const CatalogID = (props) => {
     }
 
     const [zakaz, setZakaz] = React.useState(a)
-    const {state, dispatch, n} = React.useContext(StoreContext)
+    const { state, dispatch, n } = React.useContext(StoreContext)
 
     //localStorage.setItem("zakaz", JSON.stringify(action.zakaz))
 
@@ -98,9 +98,12 @@ const CatalogID = (props) => {
 
                             return (
                                 <tr key={`id-${el.Ид}`}>
+                                    <td className="thumbnail">
+                                        {el.Картинка && <img src={`/1cbitrix/${el.Картинка}`} alt={el.Наименование}/>}
+                                    </td>
                                     <td><Link href={`/catalog/item/${el.Ид}`} as={`/catalog/item/${el.Ид}`}><a>{el.Наименование}</a></Link></td>
-                                    <td>{dat.Представление}</td>
-                                    <td><AddBtn id={dat.Ид} zakaz={zakaz}/></td>
+                                    <td className="price">{dat.Представление}</td>
+                                    <td className="tobasket"><AddBtn id={dat.Ид} zakaz={zakaz} /></td>
                                 </tr>
                             )
                         })}
