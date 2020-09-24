@@ -197,7 +197,6 @@ html {
                                 td, th {
                                     line-height: 1.1em;
                                     padding: 6px 10px;
-                                    border:1px solid #333;
                                     svg {
                                         vertical-align: -10%;
                                         font-size: 16px;
@@ -211,10 +210,10 @@ html {
                                 
                             }
                             tr:nth-child(even) {
-                                background: #f1f1f1;
+                                background: #FFF5F5;
                             }
                             tr:nth-child(odd) {
-                                background: #fff;
+                                background: #FFFCF5;
                             }
                         }
 
