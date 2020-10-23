@@ -16,7 +16,11 @@ const ToplineInfo = () => {
     })
 
     return (
-        <span style={{verticalAlign: "middle"}}><ShoppingCartIcon fontSize="small" style={{position:"relative", top:"5px", left:"5px"}}/> &nbsp;&nbsp;<a href="/catalog/basket">{count} товаров</a></span>
+        <span style={{verticalAlign: "middle"}}>
+        <ShoppingCartIcon fontSize="small" style={{position:"relative", top:"5px", left:"5px"}}/>
+         &nbsp;&nbsp;
+        <a href="/catalog/basket">{count && count} товаров</a>
+        </span>
     )
 }
 

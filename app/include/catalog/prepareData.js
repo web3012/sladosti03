@@ -57,7 +57,7 @@ export async function prepareImport(XMLfile) {
     let list = [] //категории
     let list2 = [] //товары
     let list3 = [] //реквизиты
-    let acat = []
+    let acat = null // []
     let aobj = []
     let arekv = {}
     let alink = []
@@ -77,9 +77,6 @@ export async function prepareImport(XMLfile) {
         curr_path_arr.push(curr_name)
         curr_path_str = curr_path_arr.slice().join(".")
 
-        if (curr_path_str === "КоммерческаяИнформация.Классификатор.Группы") {
-            need = "Категория"
-        }
         if (curr_path_str === "КоммерческаяИнформация.Каталог.Товары") {
             list2 = []
         }
@@ -96,22 +93,57 @@ export async function prepareImport(XMLfile) {
             list3 = []
             need2 = "Реквизит"
         }
+
+        if (curr_path_str === "КоммерческаяИнформация.Каталог.Товары.Товар.ЗначениеРеквизита") {
+            arekv = {}
+            need2 = "Реквизит"
+        }
         if (curr_path_str === "КоммерческаяИнформация.Каталог.Товары.Товар.ЗначенияРеквизитов.ЗначениеРеквизита") {
             arekv = {}
             need2 = "Реквизит"
         }
 
+        //==================================================
+        // Начало новой категории
+        // Надо сохранить накопленные данные по предыдущей категории (родительской)
+        if (
+            curr_path_str === "КоммерческаяИнформация.Классификатор.Группы.Группа" ||
+            curr_path_str === "КоммерческаяИнформация.Классификатор.Группы.Группа.Группы.Группа" ||
+            curr_path_str === "КоммерческаяИнформация.Классификатор.Группы.Группа.Группы.Группа.Группы.Группа" ||
+            curr_path_str === "КоммерческаяИнформация.Классификатор.Группы.Группа.Группы.Группа.Группы.Группа.Группы.Группа"
+            ) {
+                //console.log(">>>> ", curr_path_str)
+
+                // сохраняем накопленные данные о категории
+                if(acat !== null){
+                    let id = curr_path_id[curr_path_id.length - 1]
+                    list.push([id, acat])
+                    acat = []
+                }
+            
+                need = "Категория"
+                acat = [] //инициируем новую категорию
+        }
+
+
     })
 
     parser.on('closetag', function (name) {
-        if (curr_path_str === "КоммерческаяИнформация.Классификатор.Группы") {
-            need = false
-        }
         if (curr_path_str === "КоммерческаяИнформация.Каталог.Товары.Товар.Группы") {
             aobj.push(['link', alink])
             need2 = "Товар"
         }
         if (curr_path_str === "КоммерческаяИнформация.Каталог.Товары.Товар.ЗначенияРеквизитов") {
+            need2 = "Товар"
+        }
+        
+        if (curr_path_str === "КоммерческаяИнформация.Каталог.Товары.Товар.ЗначениеРеквизита") {
+            list3.push()
+            switch (arekv.name) {
+                case "ОписаниеВФорматеHTML":
+                    aobj.push(["desc", arekv.value])
+                    break;
+            }
             need2 = "Товар"
         }
         if (curr_path_str === "КоммерческаяИнформация.Каталог.Товары.Товар.ЗначенияРеквизитов.ЗначениеРеквизита") {
@@ -126,6 +158,12 @@ export async function prepareImport(XMLfile) {
                 case "Вес":
                     aobj.push(["ves", arekv.value])
                     break;
+                case "ОписаниеВФорматеHTML":
+                    aobj.push(["desc", arekv.value])
+                    break;
+                case "Новинка":
+                    aobj.push(["new", arekv.value])
+                    break;
             }
         }
         if (curr_path_str === "КоммерческаяИнформация.Каталог.Товары.Товар") {
@@ -134,9 +172,28 @@ export async function prepareImport(XMLfile) {
 
         }
 
-        if (name === "Группа") {
+        // =========================================
+        // Категории
+        if(
+        curr_path_str === "КоммерческаяИнформация.Классификатор.Группы.Группа" ||
+        curr_path_str === "КоммерческаяИнформация.Классификатор.Группы.Группа.Группы.Группа" ||
+        curr_path_str === "КоммерческаяИнформация.Классификатор.Группы.Группа.Группы.Группа.Группы.Группа" ||
+        curr_path_str === "КоммерческаяИнформация.Классификатор.Группы.Группа.Группы.Группа.Группы.Группа.Группы.Группа"
+        ){
+            //console.log("<<<< ", curr_path_str)
+                
+            // сохраняем если еще не сохранили 
+            // при наличии дочерних категорий родительская сохраняется при начале дочерней категории
+            if(acat !== null){
+                let id = curr_path_id[curr_path_id.length - 1]
+                list.push([id, acat])
+            }
+
+            need = false
+            acat = null // конец сбора информации
             curr_path_id.pop() // Убираем из стека текущий parent Ид
         }
+
         // ----------------------------------------------
         curr_path_arr.pop()
         curr_path_str = curr_path_arr.slice().join(".")
@@ -144,18 +201,19 @@ export async function prepareImport(XMLfile) {
 
     parser.on('text', async (text) => {
         if (need == "Категория") { // Категория
+
             if (curr_name === "Ид") {
-                acat = []
                 acat.push(["id", text])
                 acat.push(["parent", curr_path_id[curr_path_id.length - 1]])
                 curr_path_id.push(text)
             }
             if (curr_name === "Наименование") {
+                
+                
                 acat.push(["title", text])
-                // Сохраняем Obj в List
-                let id = curr_path_id[curr_path_id.length - 1]
-                list.push([id, acat])
-                acat = []
+            }
+            if (curr_name === "Картинка") {
+                acat.push(["pic", text])
             }
 
         }

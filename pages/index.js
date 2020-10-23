@@ -30,8 +30,14 @@ const Catalog = (props) => {
                 <h2>Каталог товаров</h2>
                 <ul className="catalogIndex">
                     {list.map((el) => {
+                        let style = {}
+                        if(el.pic){
+                            style = {
+                                background: `url(/1cbitrix/${el.pic})`
+                            }
+                        }
                         return (
-                            <li key={el.id}><Link href={`/catalog/${el.id}`}><a>{el.title}</a></Link></li>
+                            <li key={el.id} style={style}><Link href={`/catalog/${el.id}`}><a>{el.title}</a></Link></li>
                         )
                     })}
                 </ul>
