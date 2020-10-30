@@ -5,10 +5,11 @@ import {events} from '@app/components/global/events'
 const ToplineInfo = () => {
 
     let a = []
-    if (typeof window !== "undefined") {
+    let [count, setCount] = React.useState(a.length)
+
+    React.useEffect(()=>{
         a = JSON.parse(localStorage.getItem('zakaz')) || []
-    }
-    const [count, setCount] = React.useState(a.length)
+    }, [])
 
     events.on('updateZakaz', () => {
         a = JSON.parse(localStorage.getItem('zakaz')) || []
